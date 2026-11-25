@@ -1,0 +1,1 @@
+{"description":"One short pickup line an AI agent could actually say, written to /output/entry.txt.","license":"MIT","name":"the-perfect-pickup-line","scripts":{"start":"node main.ts"},"type":"module","version":"1.0.0"}
