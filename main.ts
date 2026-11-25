@@ -19,16 +19,25 @@ function checkedLine(line: string): string {
   if (trimmed !== line) {
     throw new Error("pickup line must not start or end with whitespace");
   }
+  // A pickup line has to be a sentence someone can say, not a lone word.
+  if (!trimmed.includes(" ")) {
+    throw new Error("pickup line must be a full sentence, not a single word");
+  }
   return trimmed;
+}
+
+function writeEntry(outDir: string, line: string): string {
+  mkdirSync(outDir, { recursive: true });
+  const target = join(outDir, "entry.txt");
+  writeFileSync(target, line + "\n", "utf8");
+  chmodSync(target, 0o644);
+  return target;
 }
 
 function main(): void {
   const line = checkedLine(PICKUP_LINE);
   const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
-  mkdirSync(outDir, { recursive: true });
-  const target = join(outDir, "entry.txt");
-  writeFileSync(target, line + "\n", "utf8");
-  chmodSync(target, 0o644);
+  const target = writeEntry(outDir, line);
   console.log(`wrote ${target} (${line.length} characters)`);
 }
 
